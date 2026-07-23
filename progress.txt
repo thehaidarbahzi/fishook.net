@@ -1,0 +1,4 @@
+## 2026-07-23
+
+### Setup Project
+- Created `frontend/` - Init project Vite + React + TypeScript via `npm create vite@latest`
