@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fishook | Webhook Tester</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .syntax-key { color: #7dd3fc; } /* light blue */
+        .syntax-string { color: #86efac; } /* green */
+        .syntax-number { color: #93c5fd; } /* blue */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #141313; }
+        ::-webkit-scrollbar-thumb { background: #2b2a2a; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #353434; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#c8c5ca",
+                    "surface-tint": "#c8c6c8",
+                    "surface-dim": "#141313",
+                    "background": "#141313",
+                    "on-primary-fixed": "#1c1b1d",
+                    "secondary-fixed": "#e4e1e6",
+                    "error-container": "#93000a",
+                    "tertiary-fixed-dim": "#cec4c4",
+                    "on-secondary-fixed-variant": "#47464a",
+                    "secondary": "#c8c5ca",
+                    "surface-container": "#201f1f",
+                    "secondary-container": "#47464a",
+                    "tertiary-fixed": "#ebe0df",
+                    "on-tertiary-fixed-variant": "#4c4545",
+                    "on-primary-fixed-variant": "#474649",
+                    "on-tertiary": "#352f2f",
+                    "on-secondary": "#303033",
+                    "on-tertiary-container": "#7f7777",
+                    "on-secondary-container": "#b6b4b8",
+                    "primary-container": "#09090b",
+                    "surface-container-high": "#2b2a2a",
+                    "on-secondary-fixed": "#1b1b1e",
+                    "primary-fixed": "#e5e1e4",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-primary-container": "#7a787b",
+                    "on-tertiary-fixed": "#1f1a1a",
+                    "primary": "#c8c6c8",
+                    "tertiary-container": "#0c0808",
+                    "on-background": "#e5e2e1",
+                    "surface-variant": "#353434",
+                    "outline": "#919095",
+                    "inverse-surface": "#e5e2e1",
+                    "error": "#ffb4ab",
+                    "inverse-primary": "#5f5e60",
+                    "on-surface": "#e5e2e1",
+                    "surface-container-highest": "#353434",
+                    "surface-bright": "#3a3939",
+                    "on-error-container": "#ffdad6",
+                    "surface": "#141313",
+                    "on-error": "#690005",
+                    "on-primary": "#313032",
+                    "inverse-on-surface": "#313030",
+                    "outline-variant": "#47464a",
+                    "on-surface-variant": "#c8c5ca",
+                    "tertiary": "#cec4c4",
+                    "primary-fixed-dim": "#c8c6c8",
+                    "surface-container-low": "#1c1b1b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "container-padding": "24px",
+                    "base": "4px",
+                    "gutter": "16px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-caps": ["JetBrains Mono"],
+                    "code-md": ["JetBrains Mono"],
+                    "body-sm": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "code-sm": ["JetBrains Mono"],
+                    "display": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "code-md": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "headline-sm": ["18px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "code-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "display": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-hidden">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-gutter h-16 w-full z-50 bg-surface-container border-b border-outline-variant fixed top-0">
+<div class="flex items-center gap-stack-md">
+<span class="font-display text-display font-black text-on-surface">Fishook</span>
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-[11px] font-bold uppercase tracking-wider text-green-500">Connected via WebSocket</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="hidden md:flex items-center bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 gap-3">
+<span class="font-code-md text-code-md text-on-surface-variant opacity-80 select-all">https://api.fishook.dev/api/v1/listen/000042-9b1deb4d</span>
+<button class="hover:bg-surface-variant p-1 rounded transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[18px]">copy_all</span>
+</button>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">timer</span>
+<span class="font-label-caps text-label-caps">Expires in: 23h 59m</span>
+</div>
+</div>
+<button class="material-symbols-outlined p-2 hover:bg-surface-variant rounded-lg transition-colors">settings</button>
+</div>
+</header>
+<div class="flex h-screen pt-16">
+<!-- SideNavBar / Request History -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[320px] bg-surface-container-low border-r border-outline-variant flex flex-col py-stack-md">
+<div class="px-gutter mb-stack-md flex justify-between items-end">
+<div>
+<h2 class="font-display text-on-surface font-bold text-headline-sm">Request History</h2>
+<p class="font-body-sm text-on-surface-variant opacity-70">Real-time updates</p>
+</div>
+<button class="font-label-caps text-label-caps text-primary hover:underline transition-all">Clear All</button>
+</div>
+<div class="px-gutter mb-4">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full bg-surface-container border border-outline-variant rounded-lg pl-10 pr-4 py-2 text-body-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Filter requests..." type="text"/>
+</div>
+</div>
+<!-- Request List -->
+<div class="flex-1 overflow-y-auto space-y-1 px-2">
+<!-- Selected Item -->
+<div class="bg-secondary-container text-on-secondary-container border-l-2 border-primary p-3 rounded-r-lg cursor-pointer transition-all">
+<div class="flex justify-between items-center mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30 uppercase">POST</span>
+<span class="font-code-sm text-code-sm opacity-60">12:42:05 PM</span>
+</div>
+<div class="font-code-md text-code-md truncate mb-1">/api/webhooks</div>
+<div class="font-code-sm text-code-sm opacity-50 truncate">{"event": "user.signup", "id": "usr_42"...}</div>
+</div>
+<!-- Regular Items -->
+<div class="p-3 rounded-lg hover:bg-surface-variant cursor-pointer transition-all group border-l-2 border-transparent">
+<div class="flex justify-between items-center mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30 uppercase">GET</span>
+<span class="font-code-sm text-code-sm opacity-60">12:40:12 PM</span>
+</div>
+<div class="font-code-md text-code-md truncate text-on-surface-variant group-hover:text-on-surface">/api/status</div>
+</div>
+<div class="p-3 rounded-lg hover:bg-surface-variant cursor-pointer transition-all group border-l-2 border-transparent">
+<div class="flex justify-between items-center mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30 uppercase">POST</span>
+<span class="font-code-sm text-code-sm opacity-60">12:38:45 PM</span>
+</div>
+<div class="font-code-md text-code-md truncate text-on-surface-variant group-hover:text-on-surface">/payments</div>
+</div>
+<div class="p-3 rounded-lg hover:bg-surface-variant cursor-pointer transition-all group border-l-2 border-transparent">
+<div class="flex justify-between items-center mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30 uppercase">PUT</span>
+<span class="font-code-sm text-code-sm opacity-60">12:35:20 PM</span>
+</div>
+<div class="font-code-md text-code-md truncate text-on-surface-variant group-hover:text-on-surface">/settings</div>
+</div>
+<div class="p-3 rounded-lg hover:bg-surface-variant cursor-pointer transition-all group border-l-2 border-transparent">
+<div class="flex justify-between items-center mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/30 uppercase">DELETE</span>
+<span class="font-code-sm text-code-sm opacity-60">12:30:00 PM</span>
+</div>
+<div class="font-code-md text-code-md truncate text-on-surface-variant group-hover:text-on-surface">/cache/clear</div>
+</div>
+</div>
+<!-- Footer Tabs -->
+<div class="mt-auto border-t border-outline-variant pt-2 space-y-1">
+<button class="w-full flex items-center gap-3 px-gutter py-2 hover:bg-surface-variant text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-caps text-label-caps uppercase">Docs</span>
+</button>
+<button class="w-full flex items-center gap-3 px-gutter py-2 hover:bg-surface-variant text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps uppercase">Settings</span>
+</button>
+</div>
+</aside>
+<!-- Main Content (Detail View) -->
+<main class="ml-[320px] flex-1 bg-surface-dim overflow-y-auto p-gutter relative">
+<!-- Detail Header -->
+<div class="mb-gutter flex flex-col gap-4 border-b border-outline-variant pb-6">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 rounded bg-green-500/20 text-green-400 border border-green-500/30 font-black text-headline-sm uppercase">POST</span>
+<h1 class="font-code-md text-headline-sm text-on-surface tracking-tight">/api/webhooks</h1>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-on-surface">link</button>
+</div>
+<div class="flex gap-4 text-right">
+<div>
+<p class="text-[10px] font-bold uppercase text-on-surface-variant tracking-widest">Status</p>
+<p class="text-green-400 font-bold">200 OK</p>
+</div>
+<div>
+<p class="text-[10px] font-bold uppercase text-on-surface-variant tracking-widest">Latency</p>
+<p class="text-on-surface font-bold">45ms</p>
+</div>
+<div>
+<p class="text-[10px] font-bold uppercase text-on-surface-variant tracking-widest">Received</p>
+<p class="text-on-surface font-bold">12:42:05 PM</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 p-2 bg-surface-container-lowest border border-outline-variant rounded-lg w-fit">
+<span class="font-code-sm text-code-sm text-on-surface-variant px-2">Request URL:</span>
+<span class="font-code-sm text-code-sm text-primary select-all">https://api.fishook.dev/api/v1/listen/000042-9b1deb4d</span>
+</div>
+</div>
+<!-- Tabs Navigation -->
+<div class="flex items-center border-b border-outline-variant gap-6 mb-stack-md overflow-x-auto">
+<button class="pb-3 px-1 border-b-2 border-primary font-bold text-on-surface transition-all" id="tab-body" onclick="switchTab('body')">Body (JSON)</button>
+<button class="pb-3 px-1 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface transition-all" id="tab-headers" onclick="switchTab('headers')">Headers</button>
+<button class="pb-3 px-1 border-b-2 border-transparent text-on-surface-variant hover:text-on-surface transition-all" id="tab-query" onclick="switchTab('query')">Query Params</button>
+</div>
+<!-- Content Area -->
+<div class="relative" id="body-content">
+<div class="absolute right-4 top-4 z-10">
+<button class="flex items-center gap-2 bg-surface-container-high border border-outline-variant hover:border-primary/50 rounded px-3 py-1.5 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span class="text-body-sm font-bold">Copy JSON</span>
+</button>
+</div>
+<div class="bg-surface-container-low border border-outline-variant rounded-xl p-6 font-code-md text-code-md leading-relaxed overflow-x-auto min-h-[400px]">
+<pre><code>{
+  <span class="syntax-key">"event"</span>: <span class="syntax-string">"user.signup"</span>,
+  <span class="syntax-key">"id"</span>: <span class="syntax-string">"evt_429b1deb4d"</span>,
+  <span class="syntax-key">"created"</span>: <span class="syntax-number">1716381725</span>,
+  <span class="syntax-key">"data"</span>: {
+    <span class="syntax-key">"object"</span>: {
+      <span class="syntax-key">"id"</span>: <span class="syntax-string">"usr_98234"</span>,
+      <span class="syntax-key">"email"</span>: <span class="syntax-string">"jane.doe@example.com"</span>,
+      <span class="syntax-key">"metadata"</span>: {
+        <span class="syntax-key">"source"</span>: <span class="syntax-string">"web_landing"</span>,
+        <span class="syntax-key">"ref"</span>: <span class="syntax-number">102</span>
+      },
+      <span class="syntax-key">"status"</span>: <span class="syntax-string">"pending_verification"</span>
+    }
+  },
+  <span class="syntax-key">"livemode"</span>: <span class="syntax-number">false</span>,
+  <span class="syntax-key">"pending_webhooks"</span>: <span class="syntax-number">0</span>,
+  <span class="syntax-key">"request"</span>: {
+    <span class="syntax-key">"id"</span>: <span class="syntax-string">"req_1A2B3C4D"</span>,
+    <span class="syntax-key">"idempotency_key"</span>: <span class="syntax-string">"5234-9023-1123"</span>
+  }
+}</code></pre>
+</div>
+</div>
+<!-- Headers Content (Hidden by default) -->
+<div class="hidden" id="headers-content">
+<div class="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden">
+<table class="w-full text-left font-code-md text-code-md border-collapse">
+<thead>
+<tr class="bg-surface-container-high border-b border-outline-variant">
+<th class="p-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Key</th>
+<th class="p-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Value</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr>
+<td class="p-4 text-primary font-bold">Content-Type</td>
+<td class="p-4 text-on-surface">application/json</td>
+</tr>
+<tr>
+<td class="p-4 text-primary font-bold">User-Agent</td>
+<td class="p-4 text-on-surface">Stripe/v1 hookshot-device-42</td>
+</tr>
+<tr>
+<td class="p-4 text-primary font-bold">X-Signature</td>
+<td class="p-4 text-on-surface break-all">t=1716381725,v1=9b1deb4d8721c0e9b98721a...</td>
+</tr>
+<tr>
+<td class="p-4 text-primary font-bold">Accept</td>
+<td class="p-4 text-on-surface">*/*</td>
+</tr>
+<tr>
+<td class="p-4 text-primary font-bold">X-Forwarded-For</td>
+<td class="p-4 text-on-surface">54.122.10.4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Query Content (Hidden by default) -->
+<div class="hidden" id="query-content">
+<div class="flex flex-col items-center justify-center py-24 bg-surface-container-low border border-outline-variant border-dashed rounded-xl text-on-surface-variant">
+<span class="material-symbols-outlined text-[48px] mb-4 opacity-20">query_stats</span>
+<p class="font-body-md">No query parameters detected in this request</p>
+</div>
+</div>
+</main>
+</div>
+<!-- Empty State Logic (Visual Only Example) -->
+<div class="fixed inset-0 bg-surface z-[100] flex items-center justify-center hidden" id="empty-state">
+<div class="text-center max-w-xs">
+<div class="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-[32px]">webhook</span>
+</div>
+<h3 class="text-headline-sm font-bold mb-2">No Selection</h3>
+<p class="text-on-surface-variant text-body-md">Select a request from the sidebar to inspect payload details</p>
+</div>
+</div>
+<script>
+        function switchTab(tab) {
+            // Hide all content
+            document.getElementById('body-content').classList.add('hidden');
+            document.getElementById('headers-content').classList.add('hidden');
+            document.getElementById('query-content').classList.add('hidden');
+            
+            // Reset tab styles
+            const tabs = ['body', 'headers', 'query'];
+            tabs.forEach(t => {
+                const el = document.getElementById('tab-' + t);
+                el.classList.remove('border-primary', 'font-bold', 'text-on-surface');
+                el.classList.add('border-transparent', 'text-on-surface-variant');
+            });
+
+            // Show active content
+            document.getElementById(tab + '-content').classList.remove('hidden');
+            
+            // Set active tab style
+            const activeEl = document.getElementById('tab-' + tab);
+            activeEl.classList.remove('border-transparent', 'text-on-surface-variant');
+            activeEl.classList.add('border-primary', 'font-bold', 'text-on-surface');
+        }
+
+        // Micro-interaction for copy feedback
+        document.querySelectorAll('button').forEach(btn => {
+            if(btn.textContent.includes('Copy')) {
+                btn.addEventListener('click', () => {
+                    const originalContent = btn.innerHTML;
+                    btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">check</span><span class="text-body-sm font-bold">Copied!</span>`;
+                    btn.classList.add('text-green-400', 'border-green-400');
+                    setTimeout(() => {
+                        btn.innerHTML = originalContent;
+                        btn.classList.remove('text-green-400', 'border-green-400');
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body></html>
