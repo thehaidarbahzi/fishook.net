@@ -50,8 +50,33 @@
 * **Real-time:** WebSockets / SSE (Server-Sent Events)
 
 ---
+## 4. Database Schema Concept (PostgreSQL)
 
-## 4. System Flow & Architecture
+### Table: `users_sessions`
+* `id` (UUID, Primary Key)
+* `token` (VARCHAR, Unique, indexed) -- Format: Counter-UUID
+* `created_at` (TIMESTAMP)
+* `expires_at` (TIMESTAMP)
+
+### Table: `webhooks`
+* `id` (UUID, Primary Key)
+* `session_id` (FK -> `users_sessions.id`)
+* `endpoint_slug` (VARCHAR, Unique) -- URL Listener unik
+* `created_at` (TIMESTAMP)
+* `expires_at` (TIMESTAMP)
+* `is_active` (BOOLEAN, Default: true)
+
+### Table: `webhook_logs`
+* `id` (BIGINT / UUID, Primary Key)
+* `webhook_id` (FK -> `webhooks.id`)
+* `headers` (JSONB)
+* `payload` (JSONB) -- Hanya menyimpan payload valid JSON
+* `query_params` (JSONB)
+* `http_method` (VARCHAR)
+* `created_at` (TIMESTAMP)
+
+---
+## 5. System Flow & Architecture
 
 ```text
                ┌──────────────────────────────────────────────┐
@@ -91,7 +116,7 @@
                                                                └────────────────────┘
 ```
 ---
-## 5. Work Division
+## 6. Work Division
 ### Person A — Frontend Specialist (React.js)
 - [ ] Setup project React.js dengan Tailwind CSS & Shadcn UI.
 - [ ] Implementasi manajemen Session/Cookie handshake dengan Hono API.
@@ -107,7 +132,7 @@
 - [ ] Setup Engine WebSocket / SSE Server untuk push log ke pengguna.
 
 ---
-## 6. Future Enhancements (Post-MVP)
+## 7. Future Enhancements (Post-MVP)
 - Fitur sistem akun permanen (OAuth / Email Login).
 - Fitur Replay Request (Mengirim ulang payload webhook yang masuk ke URL target lain).
 - Ekspor log request ke dalam bentuk file JSON atau CSV.
