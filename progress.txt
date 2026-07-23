@@ -2,3 +2,10 @@
 
 ### Setup Project
 - Created `frontend/` - Init project Vite + React + TypeScript via `npm create vite@latest`
+- Created `tailwind.config.js` - Setup Tailwind CSS dengan design tokens dari stitch
+- Created `postcss.config.js` - Konfigurasi PostCSS untuk Tailwind
+- Modified `vite.config.ts` - Tambah path alias `@/`
+- Modified `tsconfig.app.json` - Tambah path alias `@/*`
+- Modified `src/index.css` - Ganti dengan Tailwind directives + scrollbar styles + syntax highlighting colors
+- Deleted `src/App.css` - Hapus boilerplate Vite default
+- Modified `src/App.tsx` - Bersihkan boilerplate
