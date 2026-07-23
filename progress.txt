@@ -9,3 +9,16 @@
 - Modified `src/index.css` - Ganti dengan Tailwind directives + scrollbar styles + syntax highlighting colors
 - Deleted `src/App.css` - Hapus boilerplate Vite default
 - Modified `src/App.tsx` - Bersihkan boilerplate
+
+### Shadcn UI
+- Created `components.json` - Konfigurasi Shadcn UI (base-nova style)
+- Created `src/lib/utils.ts` - Utility `cn()` untuk class merging
+- Created `src/components/ui/button.tsx`
+- Created `src/components/ui/card.tsx`
+- Created `src/components/ui/badge.tsx`
+- Created `src/components/ui/scroll-area.tsx`
+- Created `src/components/ui/skeleton.tsx`
+- Created `src/components/ui/separator.tsx`
+- Created `src/components/ui/tabs.tsx`
+- Created `src/components/ui/sheet.tsx`
+- Installed `sonner` - Toast notifications (pengganti toast Shadcn yang tidak tersedia di base-nova)
