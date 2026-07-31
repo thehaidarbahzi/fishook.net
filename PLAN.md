@@ -2,7 +2,9 @@
 
 ## A. Struktur Folder Project
 
+
 ```
+
 fishook/
 ├── src/
 │   ├── components/
@@ -44,76 +46,79 @@ fishook/
 ├── vite.config.ts
 ├── package.json
 └── progress.txt
+
 ```
 
 ## B. Breakdown Task (atomic)
 
-| # | Task | Kategori | Dependencies |
-|---|------|----------|-------------|
-| 1 | Init project Vite + React + TypeScript | Setup | — |
-| 2 | Setup Tailwind CSS + konfigurasi | Setup | 1 |
-| 3 | Init Shadcn UI + komponen (button, card, sheet, badge, scroll-area, skeleton, toast, separator, tabs) | Setup | 2 |
-| 4 | Setup react-router-dom + routing structure (/, /*) | Setup | 1 |
-| 5 | Install dependencies tambahan (zustand, @microlink/react-json-view, lucide-react, clsx, tailwind-merge) | Setup | 1 |
-| 6 | Buat tipe data TypeScript (`types/index.ts`) | Core | — |
-| 7 | Buat API client dengan credentials include (`lib/api.ts`) | Core | 6 |
-| 8 | Buat Zustand store untuk session (`stores/sessionStore.ts`) | Core | 6, 7 |
-| 9 | Buat Zustand store untuk logs (`stores/logsStore.ts`) | Core | 6 |
-| 10 | Buat `useSession` hook — fetch session on mount, handle loading/error/expired | Core | 8 |
-| 11 | Buat `useWebSocket` hook — koneksi WS, auto-reconnect, handle loading/error | Core | 8, 9 |
-| 12 | Buat komponen `EmptyState` | Shared | — |
-| 13 | Buat komponen `CopyButton` dengan toast feedback | Shared | 5 |
-| 14 | Buat komponen `MethodBadge` (warna per HTTP method) | Shared | — |
-| 15 | Buat komponen `WebhookUrlCard` — tampilkan URL + copy button | Feature | 13, 14 |
-| 16 | Buat `LogList` + `LogItem` — sidebar daftar request | Feature | 9, 14 |
-| 17 | Buat `HeadersTable` — tampilkan key-value headers | Feature | — |
-| 18 | Buat `JsonViewer` — wrapper @microlink/react-json-view dengan copy per node | Feature | 5 |
-| 19 | Buat `RequestDetail` — tabs Body/Headers/Query, integrasi JsonViewer | Feature | 17, 18 |
-| 20 | Buat `DashboardLayout` — sidebar + main panel + header | Feature | 15, 16, 19 |
-| 21 | Buat halaman `Dashboard` — integrasi session + layout + WS | Page | 10, 11, 20 |
-| 22 | Buat halaman `NotFound` | Page | 4 |
-| 23 | Setup `App.tsx` + routing + global error boundary | Integration | 21, 22 |
-| 24 | Responsive layout — sidebar collapse di mobile, Sheet utk detail | Polish | 20 |
-| 25 | loading/empty/error state review seluruh komponen | Polish | 23 |
-| 26 | Init `progress.txt` + catat semua yang sudah dikerjakan | Docs | — |
+| # | Task | Kategori | Dependencies | Note / Backend Alignment |
+|---|------|----------|-------------|--------------------------|
+| 1 | Init project Vite + React + TypeScript | Setup | — | Completed |
+| 2 | Setup Tailwind CSS + konfigurasi | Setup | 1 | Completed |
+| 3 | Init Shadcn UI + komponen (button, card, sheet, badge, scroll-area, skeleton, toast, separator, tabs) | Setup | 2 | Completed |
+| 4 | Setup react-router-dom + routing structure (/, /*) | Setup | 1 | — |
+| 5 | Install dependencies tambahan (zustand, @microlink/react-json-view, lucide-react, clsx, tailwind-merge) | Setup | 1 | Menggunakan Native WebSocket Web API (tanpa socket.io) |
+| 6 | Buat tipe data TypeScript (`types/index.ts`) | Core | — | Match dengan Express DB Schema (`body`, `queryParams`, `headers`, `webhookId`, dll.) |
+| 7 | Buat API client dengan credentials include (`lib/api.ts`) | Core | 6 | Base URL `http://localhost:3000` & `credentials: 'include'` |
+| 8 | Buat Zustand store untuk session (`stores/sessionStore.ts`) | Core | 6, 7 | Menyimpan `token`, `webhookId`, `webhookUrl`, `expiresAt` |
+| 9 | Buat Zustand store untuk logs (`stores/logsStore.ts`) | Core | 6 | Menyimpan array `WebhookLog` |
+| 10 | Buat `useSession` hook — fetch `/api/v1/session/me`, handle loading/error/expired | Core | 8 | Sesuaikan endpoint Express |
+| 11 | Buat `useWebSocket` hook — koneksi Native WS (`ws://localhost:3000`), auto-reconnect | Core | 8, 9 | Stream event `wsServer.broadcast` |
+| 12 | Buat komponen `EmptyState` | Shared | — | — |
+| 13 | Buat komponen `CopyButton` dengan toast feedback | Shared | 5 | — |
+| 14 | Buat komponen `MethodBadge` (warna per HTTP method) | Shared | — | GET, POST, PUT, DELETE, PATCH |
+| 15 | Buat komponen `WebhookUrlCard` — tampilkan URL + copy button | Feature | 13, 14 | Menerima `webhookUrl` & `expiresAt` dari backend |
+| 16 | Buat `LogList` + `LogItem` — sidebar daftar request | Feature | 9, 14 | Render item berdasarkan ID & method |
+| 17 | Buat `HeadersTable` — tampilkan key-value headers | Feature | — | — |
+| 18 | Buat `JsonViewer` — wrapper @microlink/react-json-view dengan copy per node | Feature | 5 | Menampilkan property `body` |
+| 19 | Buat `RequestDetail` — tabs Body/Headers/Query, integrasi JsonViewer | Feature | 17, 18 | Tabs: Body (`body`), Headers (`headers`), Query (`queryParams`) |
+| 20 | Buat `DashboardLayout` — sidebar + main panel + header | Feature | 15, 16, 19 | — |
+| 21 | Buat halaman `Dashboard` — integrasi session + layout + WS | Page | 10, 11, 20 | Entry point utama aplikasi |
+| 22 | Buat halaman `NotFound` | Page | 4 | — |
+| 23 | Setup `App.tsx` + routing + global error boundary | Integration | 21, 22 | — |
+| 24 | Responsive layout — sidebar collapse di mobile, Sheet utk detail | Polish | 20 | — |
+| 25 | loading/empty/error state review seluruh komponen | Polish | 23 | — |
+| 26 | Init `progress.txt` + catat semua yang sudah dikerjakan | Docs | — | — |
 
 ## C. State Handling per Komponen
 
 | Komponen | Loading | Empty | Error | Edge Case |
 |----------|---------|-------|-------|-----------|
-| `useSession` | Skeleton full page | Redirect/expired message | Retry button + toast | Cookie ditolak browser |
-| `useWebSocket` | "Connecting..." indicator | Menunggu event pertama | Reconnect toast + badge offline | Koneksi drop tiba-tiba |
+| `useSession` | Skeleton full page | Redirect/expired message | Retry button + toast | Cookie ditolak browser / Port Express mati |
+| `useWebSocket` | "Connecting..." indicator | Menunggu event pertama | Reconnect toast + badge offline | WebSocket port mismatch |
 | `LogList` | Skeleton list (5 item) | Ilustrasi + "No requests yet" | Retry button | >100 item → virtual scroll (deferred) |
-| `RequestDetail` | Skeleton panel | "Select a request" / "No body" | Fallback text | JSON >1MB → collapse all |
-| `WebhookUrlCard` | Skeleton text | — | "Failed to load webhook URL" | Copy ke clipboard blocked |
+| `RequestDetail` | Skeleton panel | "Select a request" / "No body" | Fallback text | Payload `body` >1MB → collapse all |
+| `WebhookUrlCard` | Skeleton text | — | "Failed to load webhook URL" | Copy ke clipboard blocked browser |
 | `JsonViewer` | — | "No JSON body" placeholder | Raw text fallback | Circular JSON, non-JSON body |
 
 ## D. Urutan Eksekusi (Dependency-Aware)
 
+
 ```
-Fase 1 (Setup):    1 → 2 → 3 → 4 → 5
+
+Fase 1 (Setup):    1 → 2 → 3 (Completed) → 4 → 5
 Fase 2 (Core):     6 → 7 → 8 → 9 → 10 → 11
 Fase 3 (Shared):   12 → 13 → 14
 Fase 4 (Feature):  15 → 16 → 17 → 18 → 19
 Fase 5 (Layout):   20 → 21 → 22 → 23
 Fase 6 (Polish):   24 → 25
 Fase 7 (Docs):     26
+
 ```
 
 ## E. Log Format (`progress.txt`)
 
 Setiap task akan dicatat sesuai format log-skill:
 
-```
-## 2026-07-23
+## 2026-07-31
 
 ### Setup Project
-- Created `package.json` - Init Vite + React + TypeScript
-- Created `tailwind.config.js` - Setup Tailwind CSS
-- ...
 
-### Core Layer
-- Created `types/index.ts` - Tipe data TypeScript
-- Created `lib/api.ts` - API client dengan credentials include
-- ...
-```
+* Created `package.json` - Init Vite + React + TypeScript
+* Created `tailwind.config.js` - Setup Tailwind CSS
+* Created `components.json` - Init Shadcn UI
+
+### Core Layer (Express & Native WS Sync)
+
+* Created `types/index.ts` - Tipe data TypeScript disesuaikan dengan schema Drizzle (body, headers, queryParams)
+* Created `lib/api.ts` - Fetch client mengarah ke Express http://localhost:3000 dengan credentials include
