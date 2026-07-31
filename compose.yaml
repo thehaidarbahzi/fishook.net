@@ -1,0 +1,16 @@
+services:
+  mysql_db:
+    image: docker.io/library/mysql:8.4
+    container_name: mysql_server
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: webhook
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql:Z
+
+volumes:
+  mysql_data:

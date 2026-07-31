@@ -1,6 +1,6 @@
 # Product Requirement Document (PRD)
 ## Project Name: Webhook Tester (Working Title)
-**Version:** 2.0 (Updated Stack & Strict Validation Flow)
+**Version:** 3.0 (Express + MySQL + Drizzle ORM)
 
 ---
 
@@ -29,7 +29,7 @@
 * **JSON Filter Middleware:**
   * Server memeriksa header `Content-Type: application/json` serta melakukan *parsing* isi request.
   * **Non-JSON Handling:** Jika request yang dikirimkan **bukan format JSON** atau *malformed JSON*, backend **langsung menolak** dengan HTTP Status `400 Bad Request`.
-  * Data request non-JSON **TIDAK AKAN dicatat/disimpan** ke database PostgreSQL demi efisiensi ruang penyimpanan.
+   * Data request non-JSON **TIDAK AKAN dicatat/disimpan** ke database MySQL demi efisiensi ruang penyimpanan.
 
 ### 2.4 Real-time Log & Visualizer UI
 * **Instant Payload Streaming:** Request JSON yang valid akan langsung diteruskan ke UI via WebSocket/SSE tanpa butuh *refresh* halaman.
@@ -45,9 +45,10 @@
 
 * **Frontend:** React.js + Tailwind CSS + Shadcn UI
 * **JSON Viewer:** `@microlink/react-json-view`
-* **Backend:** Hono Framework (Node.js / Bun runtime)
-* **Database:** PostgreSQL (Primary Store & Session Logs)
-* **Real-time:** WebSockets / SSE (Server-Sent Events)
+* **Backend:** Express.js (Node.js runtime)
+* **ORM:** Drizzle ORM
+* **Database:** MySQL (Primary Store & Session Logs)
+* **Real-time:** WebSocket (ws library)
 
 ---
 
@@ -63,7 +64,7 @@
      Get Token Cookie  │                              │    (WebSocket / SSE)
                        ▼                              │
 ┌─────────────────────────────────────────────────────┴────────────────────────┐
-│                             HONO BACKEND ENGINE                              │
+│                           EXPRESS BACKEND ENGINE                             │
 │                                                                              │
 │   ┌────────────────────────┐      ┌──────────────────────────────────────┐   │
 │   │  Session & Cookie MW   │      │        Webhook Receiver API          │   │
@@ -84,27 +85,27 @@
 └─────────────────────────────────────────────────────────────────────────┬────┘
                                                                           │
                                                                           ▼
-                                                               ┌────────────────────┐
-                                                               │  PostgreSQL DB     │
-                                                               │ (Users, Webhooks,  │
-                                                               │  JSON Logs)        │
-                                                               └────────────────────┘
+                                                                ┌────────────────────┐
+                                                                │  MySQL DB          │
+                                                                │ (Users, Webhooks,  │
+                                                                │  JSON Logs)        │
+                                                                └────────────────────┘
 ```
 ---
 ## 5. Work Division
 ### Person A — Frontend Specialist (React.js)
 - [ ] Setup project React.js dengan Tailwind CSS & Shadcn UI.
-- [ ] Implementasi manajemen Session/Cookie handshake dengan Hono API.
+- [ ] Implementasi manajemen Session/Cookie handshake dengan Express API.
 - [ ] Laying out Dashboard (List Webhook, Sidebar Log, JSON Detail Preview).
 - [ ] Integrasi @microlink/react-json-view untuk inspeksi data JSON.
 - [ ] Integrasi WebSocket/SSE Client untuk pembaruan log secara real-time.
 
-### Person B — Backend Specialist (Hono Framework)
-- [ ] Setup Hono API Server & Koneksi Database PostgreSQL (menggunakan Prisma / Drizzle ORM).
+### Person B — Backend Specialist (Express.js)
+- [ ] Setup Express.js API Server & Koneksi Database MySQL (menggunakan Drizzle ORM).
 - [ ] Implementasi Generator Token (Counter + UUID) & Cookie Session Middleware.
 - [ ] Implementasi Middleware Strict JSON Validation & Expiration Checker (NOW() < expires_at).
-- [ ] Bikin endpoint listener /api/v1/listen/:webhook_id & fungsi saver log ke DB PostgreSQL.
-- [ ] Setup Engine WebSocket / SSE Server untuk push log ke pengguna.
+- [ ] Bikin endpoint listener /api/v1/listen/:webhook_id & fungsi saver log ke DB MySQL.
+- [ ] Setup Engine WebSocket Server untuk push log ke pengguna.
 
 ---
 ## 6. Future Enhancements (Post-MVP)

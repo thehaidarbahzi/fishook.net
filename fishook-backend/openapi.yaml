@@ -1,0 +1,257 @@
+openapi: "3.1.0"
+info:
+  title: Fishook - Webhook Tester API
+  description: |
+    Platform penerima webhook sementara untuk developer menguji,
+    menganalisis, dan men-debug request HTTP real-time.
+  version: "1.0.0"
+  contact:
+    name: Fishook
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+
+paths:
+  /api/v1/session/me:
+    get:
+      summary: Get current session info
+      description: Mengembalikan informasi session pengguna berdasarkan cookie session_token
+      operationId: getSession
+      security:
+        - CookieAuth: []
+      responses:
+        "200":
+          description: Session info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionResponse"
+        "401":
+          description: No session cookie
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/v1/listen/{webhookId}:
+    parameters:
+      - name: webhookId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Webhook ID (UUID v4) yang didapat dari session
+    post:
+      summary: Send webhook payload
+      description: |
+        Mengirim request HTTP ke webhook endpoint.
+        Hanya request dengan Content-Type: application/json yang diterima.
+      operationId: sendWebhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Any valid JSON payload
+      responses:
+        "200":
+          description: Webhook received
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookReceived"
+        "400":
+          description: Non-JSON request or malformed JSON
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Webhook ID not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "410":
+          description: Webhook endpoint has expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    get:
+      summary: Send webhook via GET
+      operationId: sendWebhookGet
+      responses:
+        "200":
+          description: Webhook received (GET request logged)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookReceived"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "410":
+          $ref: "#/components/responses/Gone"
+    put:
+      summary: Send webhook via PUT
+      operationId: sendWebhookPut
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          $ref: "#/components/responses/WebhookOK"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "410":
+          $ref: "#/components/responses/Gone"
+    patch:
+      summary: Send webhook via PATCH
+      operationId: sendWebhookPatch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          $ref: "#/components/responses/WebhookOK"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "410":
+          $ref: "#/components/responses/Gone"
+    delete:
+      summary: Send webhook via DELETE
+      operationId: sendWebhookDelete
+      responses:
+        "200":
+          $ref: "#/components/responses/WebhookOK"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "410":
+          $ref: "#/components/responses/Gone"
+
+  /health:
+    get:
+      summary: Health check
+      operationId: healthCheck
+      responses:
+        "200":
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+components:
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: session_token
+      description: HttpOnly cookie yang di-set otomatis oleh server saat pertama kali akses
+
+  schemas:
+    SessionResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "000001-9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+          description: Full session token (Counter + UUID)
+        webhookId:
+          type: string
+          format: uuid
+          example: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+          description: Webhook ID untuk menerima request
+        webhookUrl:
+          type: string
+          format: uri
+          example: "http://localhost:3000/api/v1/listen/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d"
+          description: Full URL endpoint webhook
+        expiresAt:
+          type: string
+          format: date-time
+          description: Token expiration time
+
+    WebhookReceived:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Webhook received"
+        id:
+          type: integer
+          description: ID log entry di database
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Bad Request"
+        message:
+          type: string
+          example: "Content-Type must be application/json"
+
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Gone:
+      description: Webhook expired
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    WebhookOK:
+      description: Webhook received
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/WebhookReceived"
+
+  x-webhooks:
+    webhookLog:
+      description: Real-time webhook log via WebSocket
+      parameters:
+        - name: webhook_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      bindings:
+        - type: websocket
+          method: SUBSCRIBE
