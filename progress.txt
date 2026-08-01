@@ -22,3 +22,20 @@
 - Created `src/components/ui/tabs.tsx`
 - Created `src/components/ui/sheet.tsx`
 - Installed `sonner` - Toast notifications (pengganti toast Shadcn yang tidak tersedia di base-nova)
+
+## 2026-08-01
+### Tailwind v4 Migration
+- Fixed `Tailwind v3 vs base-nova mismatch` - Shadcn base-nova butuh Tailwind v4 (ring-3, has-data-*, rounded-4xl), migrasi dari v3.4 ke v4
+- Uninstalled `tailwindcss@3, postcss, autoprefixer, @tailwindcss/forms, @tailwindcss/container-queries, tailwindcss-animate`
+- Installed `tailwindcss@4, @tailwindcss/vite, tw-animate-css`
+- Deleted `tailwind.config.js` - Digantikan CSS-first config di index.css
+- Deleted `postcss.config.js` - Tidak dibutuhkan (pakai @tailwindcss/vite plugin)
+- Modified `vite.config.ts` - Tambah `@tailwindcss/vite` plugin
+- Modified `src/index.css` - Migrasi design tokens stitch ke format `@theme` + `@theme inline` (CSS variables shadcn)
+- Modified `index.html` - Tambah class `dark` + Google Fonts (Inter & JetBrains Mono)
+
+### Routing
+- Installed `react-router-dom`
+- Created `src/pages/Dashboard.tsx` - Halaman landing untuk route `/` (placeholder + skeleton)
+- Created `src/pages/NotFound.tsx` - Fallback 404 dengan tombol "Back to Dashboard"
+- Modified `src/App.tsx` - Setup BrowserRouter + Routes (`/` -> Dashboard, `*` -> NotFound)

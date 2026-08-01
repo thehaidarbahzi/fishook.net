@@ -56,7 +56,7 @@ fishook/
 | 1 | Init project Vite + React + TypeScript | Setup | — | Completed |
 | 2 | Setup Tailwind CSS + konfigurasi | Setup | 1 | Completed |
 | 3 | Init Shadcn UI + komponen (button, card, sheet, badge, scroll-area, skeleton, toast, separator, tabs) | Setup | 2 | Completed |
-| 4 | Setup react-router-dom + routing structure (/, /*) | Setup | 1 | — |
+| 4 | Setup react-router-dom + routing structure (/, /*) | Setup | 1 | ✅ Done | — |
 | 5 | Install dependencies tambahan (zustand, @microlink/react-json-view, lucide-react, clsx, tailwind-merge) | Setup | 1 | Menggunakan Native WebSocket Web API (tanpa socket.io) |
 | 6 | Buat tipe data TypeScript (`types/index.ts`) | Core | — | Match dengan Express DB Schema (`body`, `queryParams`, `headers`, `webhookId`, dll.) |
 | 7 | Buat API client dengan credentials include (`lib/api.ts`) | Core | 6 | Base URL `http://localhost:3000` & `credentials: 'include'` |
