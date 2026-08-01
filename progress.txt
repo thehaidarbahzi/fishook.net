@@ -63,3 +63,10 @@
   - `apiFetch<T>(path, init?)` - Generic wrapper: `credentials: "include"` (kirim cookie HttpOnly lintas origin), header `Content-Type: application/json`, non-OK response di-parse jadi `ApiError` (`{ message }`) lalu di-throw, fallback ke `statusText`
   - `fetchSession()` - Typed helper `GET /api/v1/session/me` → `Promise<Session>` (siap dipakai `sessionStore` & `useSession`)
 - Verified `npm run build` (tsc + vite) & `npm run lint` sukses (warning `react/only-export-components` hanya di komponen UI pre-existing)
+
+### Session Store (Task 8)
+- Created `src/stores/sessionStore.ts` - Zustand store untuk session (zustand@5.0.14)
+  - State: `session` (`Session | null` berisi token, webhookId, webhookUrl, expiresAt), `status` (`idle|loading|success|error`), `error` (`string | null`)
+  - Actions: `setSession` (set data + status success), `setStatus`, `setError` (set error + status error), `clearSession` (reset ke idle)
+  - Fetch logic TIDAK ada di store — ditangani `useSession` hook (task 10)
+- Verified `npm run build` (tsc + vite) & `npm run lint` sukses
