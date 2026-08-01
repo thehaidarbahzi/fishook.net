@@ -59,7 +59,7 @@ fishook/
 | 4 | Setup react-router-dom + routing structure (/, /*) | Setup | 1 | ✅ Done | — |
 | 5 | Install dependencies tambahan (zustand, @microlink/react-json-view, lucide-react, clsx, tailwind-merge) | Setup | 1 | ✅ Done — `zustand@5.0.14`, `@microlink/react-json-view@1.31.25` (clsx/lucide-react/tailwind-merge sudah ada); build verified |
 | 6 | Buat tipe data TypeScript (`types/index.ts`) | Core | — | ✅ Done — 5 tipe (HttpMethod, Session, WebhookLog, ApiError, WebSocketStatus); WS kirim WebhookLog polos via `?webhook_id=` |
-| 7 | Buat API client dengan credentials include (`lib/api.ts`) | Core | 6 | Base URL `http://localhost:3000` & `credentials: 'include'` |
+| 7 | Buat API client dengan credentials include (`lib/api.ts`) | Core | 6 | ✅ Done — Base URL `http://localhost:3000` & `credentials: 'include'` |
 | 8 | Buat Zustand store untuk session (`stores/sessionStore.ts`) | Core | 6, 7 | Menyimpan `token`, `webhookId`, `webhookUrl`, `expiresAt` |
 | 9 | Buat Zustand store untuk logs (`stores/logsStore.ts`) | Core | 6 | Menyimpan array `WebhookLog` |
 | 10 | Buat `useSession` hook — fetch `/api/v1/session/me`, handle loading/error/expired | Core | 8 | Sesuaikan endpoint Express |

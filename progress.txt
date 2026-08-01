@@ -56,3 +56,10 @@
   - `WebSocketStatus` - connecting/open/reconnecting/closed untuk status badge WS
 - Alignment: WS broadcast kirim objek `WebhookLog` polos (tanpa envelope) via `ws://localhost:3000?webhook_id=<id>` sesuai backend `getWsServer().broadcast(webhookId, data)`
 - Verified `npm run build` (tsc + vite) & `npm run lint` sukses
+
+### API Client (Task 7)
+- Created `src/lib/api.ts` - Fetch client mengarah ke Express http://localhost:3000
+  - `API_BASE_URL` - Konstanta base URL backend
+  - `apiFetch<T>(path, init?)` - Generic wrapper: `credentials: "include"` (kirim cookie HttpOnly lintas origin), header `Content-Type: application/json`, non-OK response di-parse jadi `ApiError` (`{ message }`) lalu di-throw, fallback ke `statusText`
+  - `fetchSession()` - Typed helper `GET /api/v1/session/me` → `Promise<Session>` (siap dipakai `sessionStore` & `useSession`)
+- Verified `npm run build` (tsc + vite) & `npm run lint` sukses (warning `react/only-export-components` hanya di komponen UI pre-existing)
