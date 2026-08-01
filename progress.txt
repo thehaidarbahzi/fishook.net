@@ -70,3 +70,10 @@
   - Actions: `setSession` (set data + status success), `setStatus`, `setError` (set error + status error), `clearSession` (reset ke idle)
   - Fetch logic TIDAK ada di store — ditangani `useSession` hook (task 10)
 - Verified `npm run build` (tsc + vite) & `npm run lint` sukses
+
+### Logs Store (Task 9)
+- Created `src/stores/logsStore.ts` - Zustand store untuk logs webhook (zustand@5.0.14)
+  - State: `logs` (array `WebhookLog`), `selectedLogId` (`number | null` untuk panel detail)
+  - Actions: `addLog` (prepend terbaru di atas + auto-select bila belum ada seleksi + dedupe by id), `selectLog` (ganti seleksi), `clearLogs` (reset array & seleksi)
+  - Konsumen: `useWebSocket` (task 11) → `addLog`, `LogList/LogItem` (task 16) & `RequestDetail` (task 19) → baca/select
+- Verified `npm run build` (tsc + vite) & `npm run lint` sukses
