@@ -39,3 +39,10 @@
 - Created `src/pages/Dashboard.tsx` - Halaman landing untuk route `/` (placeholder + skeleton)
 - Created `src/pages/NotFound.tsx` - Fallback 404 dengan tombol "Back to Dashboard"
 - Modified `src/App.tsx` - Setup BrowserRouter + Routes (`/` -> Dashboard, `*` -> NotFound)
+
+### Dependencies Tahap 5
+- Installed `zustand@5.0.14` - State management (peer `react >=18` kompatibel React 19)
+- Installed `@microlink/react-json-view@1.31.25` - JSON Tree Viewer (fork maintained dari react-json-view, peer `react >=15`)
+- Confirmed `clsx@2.1.1`, `lucide-react@1.26.0`, `tailwind-merge@3.6.0` sudah terpasang dari setup sebelumnya
+- Verified `npm run build` (tsc + vite) sukses — 60 modules, tanpa error TypeScript/React 19
+- Note: `npm audit` menemukan 2 high severity pre-existing di `react-router-dom` (GHSA-qwww-vcr4-c8h2, RSC CSRF bypass) — fix butuh `--force` downgrade breaking, ditunda
