@@ -58,7 +58,7 @@ fishook/
 | 3 | Init Shadcn UI + komponen (button, card, sheet, badge, scroll-area, skeleton, toast, separator, tabs) | Setup | 2 | Completed |
 | 4 | Setup react-router-dom + routing structure (/, /*) | Setup | 1 | ✅ Done | — |
 | 5 | Install dependencies tambahan (zustand, @microlink/react-json-view, lucide-react, clsx, tailwind-merge) | Setup | 1 | ✅ Done — `zustand@5.0.14`, `@microlink/react-json-view@1.31.25` (clsx/lucide-react/tailwind-merge sudah ada); build verified |
-| 6 | Buat tipe data TypeScript (`types/index.ts`) | Core | — | Match dengan Express DB Schema (`body`, `queryParams`, `headers`, `webhookId`, dll.) |
+| 6 | Buat tipe data TypeScript (`types/index.ts`) | Core | — | ✅ Done — 5 tipe (HttpMethod, Session, WebhookLog, ApiError, WebSocketStatus); WS kirim WebhookLog polos via `?webhook_id=` |
 | 7 | Buat API client dengan credentials include (`lib/api.ts`) | Core | 6 | Base URL `http://localhost:3000` & `credentials: 'include'` |
 | 8 | Buat Zustand store untuk session (`stores/sessionStore.ts`) | Core | 6, 7 | Menyimpan `token`, `webhookId`, `webhookUrl`, `expiresAt` |
 | 9 | Buat Zustand store untuk logs (`stores/logsStore.ts`) | Core | 6 | Menyimpan array `WebhookLog` |
@@ -97,7 +97,7 @@ fishook/
 ```
 
 Fase 1 (Setup):    1 → 2 → 3 (Completed) → 4 (Completed) → 5 (Completed)
-Fase 2 (Core):     6 → 7 → 8 → 9 → 10 → 11
+Fase 2 (Core):     6 (Completed) → 7 → 8 → 9 → 10 → 11
 Fase 3 (Shared):   12 → 13 → 14
 Fase 4 (Feature):  15 → 16 → 17 → 18 → 19
 Fase 5 (Layout):   20 → 21 → 22 → 23

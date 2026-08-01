@@ -46,3 +46,13 @@
 - Confirmed `clsx@2.1.1`, `lucide-react@1.26.0`, `tailwind-merge@3.6.0` sudah terpasang dari setup sebelumnya
 - Verified `npm run build` (tsc + vite) sukses — 60 modules, tanpa error TypeScript/React 19
 - Note: `npm audit` menemukan 2 high severity pre-existing di `react-router-dom` (GHSA-qwww-vcr4-c8h2, RSC CSRF bypass) — fix butuh `--force` downgrade breaking, ditunda
+
+### TypeScript Types (Task 6)
+- Created `src/types/index.ts` - Tipe data TS disesuaikan dengan schema Drizzle (`sessions`, `webhook_logs`)
+  - `HttpMethod` - union GET/POST/PUT/DELETE/PATCH
+  - `Session` - `token`, `webhookId`, `webhookUrl`, `expiresAt` (respons langsung dari GET /api/v1/session/me)
+  - `WebhookLog` - `id`, `webhookId`, `method`, `headers`, `queryParams`, `body` (nullable JSON), `createdAt`
+  - `ApiError` - `{ message }` untuk error handling api client
+  - `WebSocketStatus` - connecting/open/reconnecting/closed untuk status badge WS
+- Alignment: WS broadcast kirim objek `WebhookLog` polos (tanpa envelope) via `ws://localhost:3000?webhook_id=<id>` sesuai backend `getWsServer().broadcast(webhookId, data)`
+- Verified `npm run build` (tsc + vite) & `npm run lint` sukses
