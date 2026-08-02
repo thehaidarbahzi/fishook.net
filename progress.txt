@@ -24,6 +24,7 @@
 - Installed `sonner` - Toast notifications (pengganti toast Shadcn yang tidak tersedia di base-nova)
 
 ## 2026-08-01
+
 ### Tailwind v4 Migration
 - Fixed `Tailwind v3 vs base-nova mismatch` - Shadcn base-nova butuh Tailwind v4 (ring-3, has-data-*, rounded-4xl), migrasi dari v3.4 ke v4
 - Uninstalled `tailwindcss@3, postcss, autoprefixer, @tailwindcss/forms, @tailwindcss/container-queries, tailwindcss-animate`
@@ -71,7 +72,16 @@
   - Fetch logic TIDAK ada di store — ditangani `useSession` hook (task 10)
 - Verified `npm run build` (tsc + vite) & `npm run lint` sukses
 
-### Logs Store (Task 9)
+## 2025-08-02
+
+### Session Hook (Task 10)
+- Created `src/hooks/useSession.ts` - Hook fetch session, handle loading/error/expired
+  - Selector store satu-per-satu (session, status, error + actions) agak hanya re-render saat nilai berubah
+  - `load()` (useCallback) - set status loading → `fetchSession()` → `setSession(data)`; gagal → `setError(message)`; reusable untuk tombol retry (kasus Cookie ditolak / port Express mati)
+  - `useEffect` panggil `load()` saat mount (GET idempoten, aman di React StrictMode dev)
+  - `isExpired()` - derived check `expiresAt <= Date.now()` (PRD 2.2); retry setelah expired membuat backend generate webhook baru
+  - Return: `{ session, status, error, isExpired, load, clear }` - hook pure, toast diserahkan ke komponen
+- Verified `npm run build` (tsc + vite) & `npm run lint` sukses
 - Created `src/stores/logsStore.ts` - Zustand store untuk logs webhook (zustand@5.0.14)
   - State: `logs` (array `WebhookLog`), `selectedLogId` (`number | null` untuk panel detail)
   - Actions: `addLog` (prepend terbaru di atas + auto-select bila belum ada seleksi + dedupe by id), `selectLog` (ganti seleksi), `clearLogs` (reset array & seleksi)
