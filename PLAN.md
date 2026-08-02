@@ -63,7 +63,7 @@ fishook/
 | 8 | Buat Zustand store untuk session (`stores/sessionStore.ts`) | Core | 6, 7 | ✅ Done — Menyimpan `token`, `webhookId`, `webhookUrl`, `expiresAt` |
 | 9 | Buat Zustand store untuk logs (`stores/logsStore.ts`) | Core | 6 | ✅ Done — Menyimpan array `WebhookLog` |
 | 10 | Buat `useSession` hook — fetch `/api/v1/session/me`, handle loading/error/expired | Core | 8 | ✅ Done — Sesuaikan endpoint Express |
-| 11 | Buat `useWebSocket` hook — koneksi Native WS (`ws://localhost:3000`), auto-reconnect | Core | 8, 9 | Stream event `wsServer.broadcast` |
+| 11 | Buat `useWebSocket` hook — koneksi Native WS (`ws://localhost:3000`), auto-reconnect | Core | 8, 9 | ✅ Done — Stream event `wsServer.broadcast` |
 | 12 | Buat komponen `EmptyState` | Shared | — | — |
 | 13 | Buat komponen `CopyButton` dengan toast feedback | Shared | 5 | — |
 | 14 | Buat komponen `MethodBadge` (warna per HTTP method) | Shared | — | GET, POST, PUT, DELETE, PATCH |

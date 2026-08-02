@@ -81,7 +81,16 @@
   - `useEffect` panggil `load()` saat mount (GET idempoten, aman di React StrictMode dev)
   - `isExpired()` - derived check `expiresAt <= Date.now()` (PRD 2.2); retry setelah expired membuat backend generate webhook baru
   - Return: `{ session, status, error, isExpired, load, clear }` - hook pure, toast diserahkan ke komponen
+### WebSocket Hook (Task 11)
+- Created `src/hooks/useWebSocket.ts` - Native WebSocket client + auto-reconnect (Opsi A: status local useState)
+  - URL: `ws://localhost:3000?webhook_id=<id>` (encodeURIComponent) sesuai alignment `getWsServer().broadcast(webhookId, data)` kirim `WebhookLog` polos
+  - Baca `webhookId` dari `sessionStore`; `onmessage` → `JSON.parse` → `addLog` (malformed diabaikan)
+  - Auto-reconnect: `onclose` → status `reconnecting` → `setTimeout(connect, 3000)`; guard `disposed` + `clearTimeout` + `ws.close()` di cleanup
+  - Ganti `webhookId` (session baru) → `clearLogs()` (log lama tidak relevan)
+  - Return `{ status }` (`connecting/open/reconnecting/closed`) untuk badge header; dipanggil di Dashboard (task 21), status diturunkan ke child via props
 - Verified `npm run build` (tsc + vite) & `npm run lint` sukses
+
+### Logs Store (Task 9)
 - Created `src/stores/logsStore.ts` - Zustand store untuk logs webhook (zustand@5.0.14)
   - State: `logs` (array `WebhookLog`), `selectedLogId` (`number | null` untuk panel detail)
   - Actions: `addLog` (prepend terbaru di atas + auto-select bila belum ada seleksi + dedupe by id), `selectLog` (ganti seleksi), `clearLogs` (reset array & seleksi)
