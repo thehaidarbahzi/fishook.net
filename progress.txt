@@ -96,3 +96,10 @@
   - Actions: `addLog` (prepend terbaru di atas + auto-select bila belum ada seleksi + dedupe by id), `selectLog` (ganti seleksi), `clearLogs` (reset array & seleksi)
   - Konsumen: `useWebSocket` (task 11) → `addLog`, `LogList/LogItem` (task 16) & `RequestDetail` (task 19) → baca/select
 - Verified `npm run build` (tsc + vite) & `npm run lint` sukses
+
+### EmptyState (Task 12)
+- Created `frontend/src/components/shared/EmptyState.tsx` - Komponen kosong reusable (generic)
+  - Props: `icon` (`LucideIcon`, default `Inbox`), `title`, `description?`, `action?` (slot retry/CTA), `className?`
+  - Styling Tailwind v4 design tokens: wrap ikon `bg-surface-container ring-1 ring-border size-12 rounded-lg`, judul `font-headline-sm`, deskripsi `font-body-md text-muted-foreground`, layout flex column center `gap-stack-md px-6 py-12 text-center`
+  - Reuse target (PLAN C): `LogList` "No requests yet", `RequestDetail` "Select a request"/"No body", `JsonViewer` "No JSON body"
+- Verified `npm run build` (tsc + vite) sukses (60 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
