@@ -120,3 +120,14 @@
   - `METHOD_STYLES: Record<HttpMethod, string>` ekshaustif (GET green, POST sky, PUT amber, DELETE red, PATCH violet) — pakai arbitrary Tailwind (text/border/bg) warna sama + rendah opasitas sesuai DESIGN "Method Badges"
   - Dibangun di atas komponen `Badge` shadcn `variant="outline"` + `font-label-caps font-semibold uppercase` (JetBrains Mono 11px bold)
 - Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
+
+### WebhookUrlCard (Task 15)
+- Created `frontend/src/lib/format.ts` - Helper `formatTimeRemaining(expiresAt, now=Date.now())`
+  - Sisa waktu → `"Expires in: 23h 59m"` (format ds/g/m sesuai `stitch/code.html:133`); jika `<= 0` → `"Expired"` (aligned `useSession.isExpired`)
+  - Murni deterministik (terima `now` param) — gampang di-unit-test
+- Created `frontend/src/components/webhook/WebhookUrlCard.tsx` - Kartu URL webhook (pure/dumb, terima props dari parent `DashboardLayout` di tahap 20)
+  - Props: `webhookUrl`, `expiresAt`, `loading?`, `onRetry?`
+  - Layout mengikuti `stitch/code.html:125-135`: `Card size="sm"` + label caps "WEBHOOK URL", kontainer `border-outline-variant bg-surface-container-low rounded-lg`, `<code>` URL `font-code-md truncate select-all text-primary` + `title` tooltip, `CopyButton` (reuse Task 13), `Separator` vertikal, blok ikon `Timer` + `font-label-caps` `formatTimeRemaining`
+  - Update live tiap 60s via `setInterval` (cleanup `clearInterval`)
+  - State handling (PLAN C): `loading` → `Skeleton`, `webhookUrl` kosong → "Failed to load webhook URL" + tombol Retry `onRetry`
+- Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
