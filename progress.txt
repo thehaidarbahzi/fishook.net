@@ -103,3 +103,13 @@
   - Styling Tailwind v4 design tokens: wrap ikon `bg-surface-container ring-1 ring-border size-12 rounded-lg`, judul `font-headline-sm`, deskripsi `font-body-md text-muted-foreground`, layout flex column center `gap-stack-md px-6 py-12 text-center`
   - Reuse target (PLAN C): `LogList` "No requests yet", `RequestDetail` "Select a request"/"No body", `JsonViewer` "No JSON body"
 - Verified `npm run build` (tsc + vite) sukses (60 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
+
+## 2026-08-03
+
+### CopyButton (Task 13)
+- Created `frontend/src/components/shared/CopyButton.tsx` - Tombol copy dengan feedback toast
+  - Props: `value` (string yang disalin), `label?` (aria-label/title, default "Copy"), `className?`
+  - Behaviour: `navigator.clipboard.writeText`; fallback `document.execCommand("copy")` via textarea bila clipboard API tak tersedia; sukses → `toast.success("Copied to clipboard")` + swap ikon `Copy`→`Check` (green) 1.5s via local state; gagal → `toast.error("Failed to copy")`
+  - Cleanup di `useEffect` (`clearTimeout`) untuk menghindari memory leak; pakai `size="icon-sm"` + `variant="ghost"` (shadcn Button)
+- Modified `frontend/src/App.tsx` - Mount `<Toaster theme="dark" position="bottom-right" richColors />` dari `sonner` di dalam `BrowserRouter` (sebelumnya belum terpasang)
+- Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)

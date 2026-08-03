@@ -65,7 +65,7 @@ fishook/
 | 10 | Buat `useSession` hook — fetch `/api/v1/session/me`, handle loading/error/expired | Core | 8 | ✅ Done — Sesuaikan endpoint Express |
 | 11 | Buat `useWebSocket` hook — koneksi Native WS (`ws://localhost:3000`), auto-reconnect | Core | 8, 9 | ✅ Done — Stream event `wsServer.broadcast` |
 | 12 | Buat komponen `EmptyState` | Shared | — | ✅ Done — Generic (icon/title/description/action), default `Inbox`; build & lint verified |
-| 13 | Buat komponen `CopyButton` dengan toast feedback | Shared | 5 | — |
+| 13 | Buat komponen `CopyButton` dengan toast feedback | Shared | 5 | ✅ Done — clipboard API + fallback execCommand, toast sonner, ikon swap; `<Toaster />` di-mount; build & lint verified |
 | 14 | Buat komponen `MethodBadge` (warna per HTTP method) | Shared | — | GET, POST, PUT, DELETE, PATCH |
 | 15 | Buat komponen `WebhookUrlCard` — tampilkan URL + copy button | Feature | 13, 14 | Menerima `webhookUrl` & `expiresAt` dari backend |
 | 16 | Buat `LogList` + `LogItem` — sidebar daftar request | Feature | 9, 14 | Render item berdasarkan ID & method |
