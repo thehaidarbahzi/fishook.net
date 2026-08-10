@@ -136,6 +136,14 @@
   - Empty state: reuse `EmptyState` (task 12) — `Inbox`, "No requests yet", "Waiting for incoming webhooks…"
   - Loading: skip (logs mulai `[]`, diisi real-time WS); virtual scroll >100 item → deferred ke polish
 - Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
+
+### HeadersTable (Task 17)
+- Created `frontend/src/components/detail/HeadersTable.tsx` - Tabel key-value headers (pure/dumb, terima props dari `RequestDetail` di tahap 19)
+  - Props: `headers: Record<string, string> | null | undefined`
+  - Styling mengikuti `stitch/code.html:278-310`: kontainer `overflow-hidden rounded-xl border-outline-variant bg-surface-container-low`, thead `bg-surface-container-high`, row `divide-y divide-outline-variant`, key `text-primary font-bold`, value `text-on-surface break-all`; padding `p-4`
+  - Empty/null → reuse `EmptyState` (task 12): `TableProperties`, "No headers", "No headers received in this request"
+  - `Object.entries` urutan insertion (stabil); nilai kosong string dirender polos
+- Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
 - Created `frontend/src/lib/format.ts` - Helper `formatTimeRemaining(expiresAt, now=Date.now())`
   - Sisa waktu → `"Expires in: 23h 59m"` (format ds/g/m sesuai `stitch/code.html:133`); jika `<= 0` → `"Expired"` (aligned `useSession.isExpired`)
   - Murni deterministik (terima `now` param) — gampang di-unit-test

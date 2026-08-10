@@ -69,7 +69,7 @@ fishook/
 | 14 | Buat komponen `MethodBadge` (warna per HTTP method) | Shared | 6 | ✅ Done — `Record<HttpMethod,string>` (GET green, POST sky, PUT amber, DELETE red, PATCH violet), pakai `Badge outline`, type-safe |
 | 15 | Buat komponen `WebhookUrlCard` — tampilkan URL + copy button | Feature | 13, 14 | ✅ Done — Menerima `webhookUrl` & `expiresAt` dari backend (di-parent `DashboardLayout`); helper `formatTimeRemaining`; update live 60s; state loading/error+retry |
 | 16 | Buat `LogList` + `LogItem` — sidebar daftar request | Feature | 9, 14 | ✅ Done — `LogList` (header + Clear All 2-step confirm + ScrollArea + EmptyState), `LogItem` (button, selected/regular, badge+time+webhookId+body preview); helper `formatLogTime` & `summarizeBody` |
-| 17 | Buat `HeadersTable` — tampilkan key-value headers | Feature | — | — |
+| 17 | Buat `HeadersTable` — tampilkan key-value headers | Feature | — | ✅ Done — tabel pure (props `headers` dari `RequestDetail`), styling `stitch/code.html:278-310`; empty/null → `EmptyState` |
 | 18 | Buat `JsonViewer` — wrapper @microlink/react-json-view dengan copy per node | Feature | 5 | Menampilkan property `body` |
 | 19 | Buat `RequestDetail` — tabs Body/Headers/Query, integrasi JsonViewer | Feature | 17, 18 | Tabs: Body (`body`), Headers (`headers`), Query (`queryParams`) |
 | 20 | Buat `DashboardLayout` — sidebar + main panel + header | Feature | 15, 16, 19 | — |
