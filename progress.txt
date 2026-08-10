@@ -121,7 +121,21 @@
   - Dibangun di atas komponen `Badge` shadcn `variant="outline"` + `font-label-caps font-semibold uppercase` (JetBrains Mono 11px bold)
 - Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
 
-### WebhookUrlCard (Task 15)
+## 2026-08-10
+
+### LogList + LogItem (Task 16)
+- Modified `frontend/src/lib/format.ts` - Tambah 2 helper
+  - `formatLogTime(createdAt)` - format waktu 12 jam `"12:42:05 PM"` (`toLocaleTimeString` hour12) sesuai `stitch/code.html:162`
+  - `summarizeBody(body, max=60)` - preview body 1 baris: JSON.stringify terpotong + `"…"`, fallback string/non-JSON (wrap try/catch), `null` → `"No body"`
+- Created `frontend/src/components/log/LogItem.tsx` - Item daftar request (pure/presentational)
+  - Props: `{ log, selected, onSelect }`; render `<button>` full-width text-left (a11y), styling `stitch/code.html:158-193`: selected → `bg-secondary-container border-l-2 border-primary rounded-r-lg`; regular → `hover:bg-surface-variant border-transparent rounded-lg`
+  - Isi 3 baris: `MethodBadge` + `formatLogTime`, `log.webhookId` (truncate), `summarizeBody(log.body)` (truncate)
+- Created `frontend/src/components/log/LogList.tsx` - Container sidebar "Request History" (baca `useLogsStore`)
+  - Header (`stitch/code.html:142-148`): judul + sub "Real-time updates" + tombol **Clear All** (disabled tanpa logs; two-step inline confirm "Confirm clear?" + reset 3s → `clearLogs()`)
+  - `ScrollArea` → `<ul>` space-y-1 map logs → `LogItem` (selected by `selectedLogId`, `selectLog`)
+  - Empty state: reuse `EmptyState` (task 12) — `Inbox`, "No requests yet", "Waiting for incoming webhooks…"
+  - Loading: skip (logs mulai `[]`, diisi real-time WS); virtual scroll >100 item → deferred ke polish
+- Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
 - Created `frontend/src/lib/format.ts` - Helper `formatTimeRemaining(expiresAt, now=Date.now())`
   - Sisa waktu → `"Expires in: 23h 59m"` (format ds/g/m sesuai `stitch/code.html:133`); jika `<= 0` → `"Expired"` (aligned `useSession.isExpired`)
   - Murni deterministik (terima `now` param) — gampang di-unit-test
