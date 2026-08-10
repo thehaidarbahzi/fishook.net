@@ -11,3 +11,25 @@ export function formatTimeRemaining(expiresAt: string, now: number = Date.now())
   if (hours > 0) return `Expires in: ${hours}h ${minutes}m`;
   return `Expires in: ${minutes}m`;
 }
+
+export function formatLogTime(createdAt: string): string {
+  return new Date(createdAt).toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  });
+}
+
+export function summarizeBody(body: unknown, max = 60): string {
+  if (body === null || body === undefined) return "No body";
+  if (typeof body === "string") {
+    return body.length > max ? `${body.slice(0, max)}…` : body;
+  }
+  try {
+    const json = JSON.stringify(body);
+    return json.length > max ? `${json.slice(0, max)}…` : json;
+  } catch {
+    return String(body);
+  }
+}
