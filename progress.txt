@@ -167,3 +167,18 @@
   - Kontainer umum: `overflow-x-auto rounded-xl border border-outline-variant bg-surface-container-low p-6` (aligned `stitch/code.html:252`)
   - Kosumsi: `RequestDetail` (task 19) — tab Body; `collapsed` diserahkan parent utk payload `>1MB` (PLAN C)
 - Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
+
+## 2026-08-11
+
+### Frontend UI Fixes
+- Fixed `frontend/src/components/ui/scroll-area.tsx` - Selector orientasi scrollbar sekarang memakai `data-orientation` dari Base UI, sehingga layout horizontal dan vertikal diterapkan.
+- Fixed `frontend/src/components/ui/separator.tsx` - Selector separator horizontal/vertikal sekarang cocok dengan atribut orientasi Base UI.
+- Fixed `frontend/src/components/ui/tabs.tsx` - Selector orientasi pada root, list, trigger, dan indikator tab sekarang memakai `data-orientation` dari Base UI.
+- Modified `frontend/src/components/ui/sheet.tsx` - Mengekspor `SheetPortal` agar primitive pembungkus tersedia untuk penggunaan lanjutan.
+- Verified `frontend` - `npm run build` sukses dan `npm run lint` selesai dengan 3 warning Fast Refresh pre-existing.
+- Modified `frontend/src/components/ui/sheet.tsx` - Mengganti offset transisi arbitrer `2.5rem` dengan utility Tailwind `10` dan `-10` yang ekuivalen.
+- Modified `frontend/src/components/ui/tabs.tsx` - Mengganti offset indikator arbitrer `bottom-[-5px]` dengan utility Tailwind `-bottom-1.25` yang ekuivalen.
+- Verified `frontend` - `npm run build` sukses dan `npm run lint` selesai dengan 3 warning Fast Refresh pre-existing.
+- Fixed `frontend/src/components/ui/tabs.tsx` - Meneruskan prop `orientation` ke `TabsPrimitive.Root`, sehingga state Base UI dan navigasi keyboard mengikuti orientasi yang dipilih.
+- Modified `frontend/src/components/ui/sheet.tsx` - Mengekspor `SheetOverlay` bersama `SheetPortal` agar bagian publik sheet dapat dikustomisasi.
+- Verified `frontend` - `npm run build` sukses dan `npm run lint` selesai dengan 3 warning Fast Refresh pre-existing.
