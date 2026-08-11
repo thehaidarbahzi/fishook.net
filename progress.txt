@@ -123,6 +123,17 @@
 
 ## 2026-08-10
 
+### WebhookUrlCard (Task 15)
+- Created `frontend/src/lib/format.ts` - Helper `formatTimeRemaining(expiresAt, now=Date.now())`
+  - Sisa waktu → `"Expires in: 23h 59m"` (format ds/g/m sesuai `stitch/code.html:133`); jika `<= 0` → `"Expired"` (aligned `useSession.isExpired`)
+  - Murni deterministik (terima `now` param) — gampang di-unit-test
+- Created `frontend/src/components/webhook/WebhookUrlCard.tsx` - Kartu URL webhook (pure/dumb, terima props dari parent `DashboardLayout` di tahap 20)
+  - Props: `webhookUrl`, `expiresAt`, `loading?`, `onRetry?`
+  - Layout mengikuti `stitch/code.html:125-135`: `Card size="sm"` + label caps "WEBHOOK URL", kontainer `border-outline-variant bg-surface-container-low rounded-lg`, `<code>` URL `font-code-md truncate select-all text-primary` + `title` tooltip, `CopyButton` (reuse Task 13), `Separator` vertikal, blok ikon `Timer` + `font-label-caps` `formatTimeRemaining`
+  - Update live tiap 60s via `setInterval` (cleanup `clearInterval`)
+  - State handling (PLAN C): `loading` → `Skeleton`, `webhookUrl` kosong → "Failed to load webhook URL" + tombol Retry `onRetry`
+- Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
+
 ### LogList + LogItem (Task 16)
 - Modified `frontend/src/lib/format.ts` - Tambah 2 helper
   - `formatLogTime(createdAt)` - format waktu 12 jam `"12:42:05 PM"` (`toLocaleTimeString` hour12) sesuai `stitch/code.html:162`
@@ -144,12 +155,15 @@
   - Empty/null → reuse `EmptyState` (task 12): `TableProperties`, "No headers", "No headers received in this request"
   - `Object.entries` urutan insertion (stabil); nilai kosong string dirender polos
 - Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
-- Created `frontend/src/lib/format.ts` - Helper `formatTimeRemaining(expiresAt, now=Date.now())`
-  - Sisa waktu → `"Expires in: 23h 59m"` (format ds/g/m sesuai `stitch/code.html:133`); jika `<= 0` → `"Expired"` (aligned `useSession.isExpired`)
-  - Murni deterministik (terima `now` param) — gampang di-unit-test
-- Created `frontend/src/components/webhook/WebhookUrlCard.tsx` - Kartu URL webhook (pure/dumb, terima props dari parent `DashboardLayout` di tahap 20)
-  - Props: `webhookUrl`, `expiresAt`, `loading?`, `onRetry?`
-  - Layout mengikuti `stitch/code.html:125-135`: `Card size="sm"` + label caps "WEBHOOK URL", kontainer `border-outline-variant bg-surface-container-low rounded-lg`, `<code>` URL `font-code-md truncate select-all text-primary` + `title` tooltip, `CopyButton` (reuse Task 13), `Separator` vertikal, blok ikon `Timer` + `font-label-caps` `formatTimeRemaining`
-  - Update live tiap 60s via `setInterval` (cleanup `clearInterval`)
-  - State handling (PLAN C): `loading` → `Skeleton`, `webhookUrl` kosong → "Failed to load webhook URL" + tombol Retry `onRetry`
+
+### JsonViewer (Task 18)
+- Created `frontend/src/components/detail/JsonViewer.tsx` - Wrapper `@microlink/react-json-view@1.31.25` (dari task 5) utk render `log.body`
+  - Props: `{ data: unknown, collapsed?: boolean | number, maxStringLength? (default 100), className? }`
+  - Render logic bertingkat (best practice):
+    - `null`/`undefined` → reuse `EmptyState` (`Braces`, "No JSON body", "This request did not include a JSON body")
+    - string → `tryParseJson` (JSON.parse safe); hasil object/array → ReactJson, selain itu → `<pre>` raw
+    - primitive → `<pre>` raw `JSON.stringify(data, null, 2)` fallback `String` (wrap try/catch utk circular)
+  - ReactJson config: `name={false}`, `theme={JSON_THEME}` (base16 custom stitch: key #7dd3fc, string #86efac, number #93c5fd, bg #1c1b1b), `enableClipboard` → copy per-node + `toast.success("Copied")`, `collapsed`, `collapseStringsAfterLength`, `indentWidth={2}`, `iconStyle="triangle"`, `displayObjectSize={false}`, `displayDataTypes={false}` (minimalist per DESIGN)
+  - Kontainer umum: `overflow-x-auto rounded-xl border border-outline-variant bg-surface-container-low p-6` (aligned `stitch/code.html:252`)
+  - Kosumsi: `RequestDetail` (task 19) — tab Body; `collapsed` diserahkan parent utk payload `>1MB` (PLAN C)
 - Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
