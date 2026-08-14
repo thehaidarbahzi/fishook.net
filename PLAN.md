@@ -73,7 +73,7 @@ fishook/
 | 18 | Buat `JsonViewer` — wrapper @microlink/react-json-view dengan copy per node | Feature | 5 | ✅ Done — copy per-node via `enableClipboard`, theme base16 custom stitch, `name={false}`, fallback `<pre>` raw utk string/primitive |
 | 19 | Buat `RequestDetail` — tabs Body/Headers/Query, integrasi JsonViewer | Feature | 17, 18 | ✅ Done — Tabs `variant="line"` (Body/Headers/Query), header `stitch/code.html:211-237`, JsonViewer + HeadersTable, query di-normalisasi (array join) |
 | 20 | Buat `DashboardLayout` — sidebar + main panel + header | Feature | 15, 16, 19 | ✅ Done — flex `h-screen`, header (brand + WS badge + WebhookUrlCard `hidden md:block`), sidebar `w-[320px]`, presentational (props; integrasi session/WS di task 21) |
-| 21 | Buat halaman `Dashboard` — integrasi session + layout + WS | Page | 10, 11, 20 | Entry point utama aplikasi |
+| 21 | Buat halaman `Dashboard` — integrasi session + layout + WS | Page | 10, 11, 20 | ✅ Done — state machine (skeleton/error+toast/expired/layout), mapping props session→DashboardLayout |
 | 22 | Buat halaman `NotFound` | Page | 4 | — |
 | 23 | Setup `App.tsx` + routing + global error boundary | Integration | 21, 22 | — |
 | 24 | Responsive layout — sidebar collapse di mobile, Sheet utk detail | Polish | 20 | — |
@@ -100,7 +100,7 @@ Fase 1 (Setup):    1 → 2 → 3 (Completed) → 4 (Completed) → 5 (Completed)
 Fase 2 (Core):     6 (Completed) → 7 → 8 → 9 → 10 → 11
 Fase 3 (Shared):   12 → 13 → 14
 Fase 4 (Feature):  15 ✅ → 16 ✅ → 17 ✅ → 18 ✅ → 19 ✅
-Fase 5 (Layout):   20 ✅ → 21 → 22 → 23
+Fase 5 (Layout):   20 ✅ → 21 ✅ → 22 → 23
 Fase 6 (Polish):   24 → 25
 Fase 7 (Docs):     26
 

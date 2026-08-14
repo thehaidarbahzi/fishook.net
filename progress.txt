@@ -207,3 +207,16 @@
   - `WsStatusBadge` (helper inline): `WS_STATUS_META` map status → warna dot + label; `open` green pulse "Connected via WebSocket", `connecting`/`reconnecting` amber, `closed` gray "Disconnected"
 - Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
 - Updated `PLAN.md` - Task 20 ditandai ✅ Done & Fase 5 (Layout) progres; wiring ke `Dashboard.tsx` (session + WS) di task 21
+
+### Dashboard Page (Task 21)
+- Modified `frontend/src/pages/Dashboard.tsx` - Entry point utama aplikasi (ganti placeholder landing), integrasi session + WS + layout
+  - Hooks di puncak komponen (aturan hooks React): `useSession()` → `{ session, status, error, isExpired, load }`, `useWebSocket()` → `{ status: wsStatus }` (no-op bila webhookId belum ada)
+  - `useEffect` guard: `toast.error(error)` sekali saat `status === "error"` (PLAN C: Retry button + toast)
+  - State machine (sesuai PLAN C `useSession`):
+    - `idle`/`loading` → `<DashboardSkeleton />` (full-page Card + Skeleton rows)
+    - `error`/`!session` → `EmptyState` (`TriangleAlert`, "Failed to load session", deskripsi error) + tombol Retry → `load()`
+    - `isExpired()` → `EmptyState` (`Clock`, "Webhook expired") + tombol "Generate new webhook" → `load()` (PRD 2.2: backend generate token+webhookId baru)
+    - `success` → `<DashboardLayout wsStatus={wsStatus} webhookUrl={session.webhookUrl} expiresAt={session.expiresAt} onRetryWebhook={load} />`
+  - Helper `DashboardSkeleton` lokal: centered `Card size` max-w-md + 3 `Skeleton` (h-6 w-full/3/4/1/2)
+- Verified `npm run build` (tsc + vite) sukses (1934 modules — naik karena komponen detail kini ter-bundle, layout aktif) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
+- Updated `PLAN.md` - Task 21 ditandai ✅ Done & Fase 5 (Layout) progres; route `/` → Dashboard sudah aktif, task 22 (NotFound) & 23 (App/routing) menyusul
