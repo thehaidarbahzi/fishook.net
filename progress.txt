@@ -196,3 +196,14 @@
   - Tab Query → helper `normalizeQueryParams` (nilai `string[]` di-`join(", ")` → `Record<string, string>`) lalu reuse `HeadersTable`; null/kosong → `EmptyState` ikon `ListFilter`, "No query parameters" (aligned `code.html:313-318`)
 - Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
 - Updated `PLAN.md` - Task 19 ditandai ✅ Done & Fase 4 (Feature) lengkap; integrasi ke `DashboardLayout` (task 20) & `Dashboard` (task 21) menunggu tahap selanjutnya
+
+### DashboardLayout (Task 20)
+- Created `frontend/src/components/layout/DashboardLayout.tsx` - Layout dashboard (header + sidebar + main panel), presentational/container-only
+  - Props: `{ wsStatus, webhookUrl, expiresAt, loading?, onRetryWebhook? }` — integrasi session & WS diserahkan ke `Dashboard` (task 21), sesuai PLAN
+  - Layout flex `h-screen` (bukan `fixed` positioning mockup agar tanpa `calc(100vh-64px)`), struktur selaras `stitch/code.html:114-209`
+  - `<header>` h-16 `bg-surface-container border-b px-gutter`: brand **Fishook** (`font-display text-display font-black`) + WS status badge inline (dot pulse + label-caps); kanan `<WebhookUrlCard>` (`hidden md:block` — sembunyi di mobile) + tombol Settings (`Button variant="ghost" size="icon-sm"`, ikon `Settings`, dekoratif)
+  - `<aside>` sidebar `w-[320px]` (keputusan: ikuti mockup, bukan 280px DESIGN.md) `border-r bg-surface-container-low py-stack-md overflow-hidden` → `<LogList />`
+  - `<main>` `min-w-0 flex-1 overflow-y-auto bg-surface-dim p-gutter` → `<RequestDetail />`
+  - `WsStatusBadge` (helper inline): `WS_STATUS_META` map status → warna dot + label; `open` green pulse "Connected via WebSocket", `connecting`/`reconnecting` amber, `closed` gray "Disconnected"
+- Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
+- Updated `PLAN.md` - Task 20 ditandai ✅ Done & Fase 5 (Layout) progres; wiring ke `Dashboard.tsx` (session + WS) di task 21
