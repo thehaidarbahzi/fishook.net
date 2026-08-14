@@ -182,3 +182,17 @@
 - Fixed `frontend/src/components/ui/tabs.tsx` - Meneruskan prop `orientation` ke `TabsPrimitive.Root`, sehingga state Base UI dan navigasi keyboard mengikuti orientasi yang dipilih.
 - Modified `frontend/src/components/ui/sheet.tsx` - Mengekspor `SheetOverlay` bersama `SheetPortal` agar bagian publik sheet dapat dikustomisasi.
 - Verified `frontend` - `npm run build` sukses dan `npm run lint` selesai dengan 3 warning Fast Refresh pre-existing.
+
+## 2026-08-14
+
+### RequestDetail (Task 19)
+- Created `frontend/src/components/detail/RequestDetail.tsx` - Panel detail request (baca `useLogsStore`, derive `selectedLog` dari `selectedLogId` & `logs`)
+  - Empty state (belum ada seleksi): reuse `EmptyState` — ikon `MousePointerClick`, "Select a request", "Choose a request from the sidebar to inspect its payload"
+  - Header mengikuti `stitch/code.html:211-237`: `MethodBadge` (ukuran `text-headline-sm`) + judul `webhookId` (`font-code-md text-headline-sm` truncate) + `CopyButton` (webhook ID) + kolom label-caps "Received" pakai `formatLogTime(log.createdAt)`; blok "Request URL:" `bg-surface-container-lowest` + `<code>` `select-all text-primary` menampilkan `/api/v1/listen/{webhookId}`
+  - Kolom Status/Latency dari desain dilewati — tipe `WebhookLog` tidak punya data tersebut
+  - Tabs `variant="line"` (underline ala `code.html:239-243`): Body (JSON) / Headers / Query Params
+  - Tab Body → `<JsonViewer data={log.body} collapsed={isLargeBody(log.body)} />`; helper `isLargeBody(body)` cek `JSON.stringify(body).length > 1_000_000` utk collapse-all (edge case PLAN C)
+  - Tab Headers → `<HeadersTable headers={log.headers} />` (null/empty sudah di-handle internal)
+  - Tab Query → helper `normalizeQueryParams` (nilai `string[]` di-`join(", ")` → `Record<string, string>`) lalu reuse `HeadersTable`; null/kosong → `EmptyState` ikon `ListFilter`, "No query parameters" (aligned `code.html:313-318`)
+- Verified `npm run build` (tsc + vite) sukses (61 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
+- Updated `PLAN.md` - Task 19 ditandai ✅ Done & Fase 4 (Feature) lengkap; integrasi ke `DashboardLayout` (task 20) & `Dashboard` (task 21) menunggu tahap selanjutnya
