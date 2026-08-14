@@ -220,3 +220,8 @@
   - Helper `DashboardSkeleton` lokal: centered `Card size` max-w-md + 3 `Skeleton` (h-6 w-full/3/4/1/2)
 - Verified `npm run build` (tsc + vite) sukses (1934 modules — naik karena komponen detail kini ter-bundle, layout aktif) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
 - Updated `PLAN.md` - Task 21 ditandai ✅ Done & Fase 5 (Layout) progres; route `/` → Dashboard sudah aktif, task 22 (NotFound) & 23 (App/routing) menyusul
+
+### NotFound Page (Task 22)
+- No file changes - `frontend/src/pages/NotFound.tsx` sudah lengkap sejak fase Routing (task 4): design tokens valid (`font-display text-display font-black text-primary`, `font-headline-sm`, `font-body-md text-on-surface-variant`, `p-gutter`, `Button variant="outline"` + `render={<Link to="/" />}`) & ter-wire di route `*` (`App.tsx`)
+- Verified `npm run build` (tsc + vite) sukses (1934 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui) — tanpa regresi dari task 21
+- Updated `PLAN.md` - Task 22 ditandai ✅ Done & Fase 5 (Layout) progres; task 23 (App/routing + global error boundary) menyusul
