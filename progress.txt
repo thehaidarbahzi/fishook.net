@@ -225,3 +225,13 @@
 - No file changes - `frontend/src/pages/NotFound.tsx` sudah lengkap sejak fase Routing (task 4): design tokens valid (`font-display text-display font-black text-primary`, `font-headline-sm`, `font-body-md text-on-surface-variant`, `p-gutter`, `Button variant="outline"` + `render={<Link to="/" />}`) & ter-wire di route `*` (`App.tsx`)
 - Verified `npm run build` (tsc + vite) sukses (1934 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui) — tanpa regresi dari task 21
 - Updated `PLAN.md` - Task 22 ditandai ✅ Done & Fase 5 (Layout) progres; task 23 (App/routing + global error boundary) menyusul
+
+### App + Global Error Boundary (Task 23)
+- Created `frontend/src/components/shared/ErrorBoundary.tsx` - Global error boundary (class component, wajib class di React 19)
+  - Props `{ children: ReactNode }`, state `{ hasError, resetKey }`
+  - `getDerivedStateFromError` → set `hasError`; `componentDidCatch` → `console.error` diagnostik
+  - `handleReset` → reset `hasError` + increment `resetKey`; children dibungkus `<Fragment key={resetKey}>` utk remount penuh subtree yang crash (bersihkan state korup)
+  - Fallback UI reuse `EmptyState` (`TriangleAlert`, "Something went wrong", "An unexpected error occurred while rendering the app") + aksi `Button` **Try again** (→ `handleReset`) & `Button variant="outline"` **Reload page** (→ `window.location.reload()`)
+- Modified `frontend/src/App.tsx` - Bungkus `<Routes>` dengan `<ErrorBoundary>` (bukan seluruh BrowserRouter) sehingga `<Toaster>` sonner tetap hidup walau sebuah page crash; routing `/` & `*` tidak berubah
+- Verified `npm run build` (tsc + vite) sukses (1935 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui) — tanpa warning baru dari ErrorBoundary
+- Updated `PLAN.md` - Task 23 ditandai ✅ Done & Fase 5 (Layout) lengkap; Fase 6 (Polish: 24 responsive, 25 state review) & Fase 7 (Docs: 26) menyusul
