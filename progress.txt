@@ -248,3 +248,19 @@
   - Catatan: `LogList` dirender 2x (aside + Sheet) tapi baca store zustand sama → seleksi/logs sinkron tanpa prop-drilling
 - Verified `npm run build` (tsc + vite) sukses (2014 modules — naik karena Sheet menarik Base UI Dialog; ada warning non-blocking chunk >500kB → code-splitting bisa jadi follow-up polish) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
 - Updated `PLAN.md` - Task 24 ditandai ✅ Done & Fase 6 (Polish) progres; task 25 (loading/empty/error state review) & 26 (docs) menyusul
+
+### State Review (Task 25)
+- Audit seluruh komponen vs PLAN C: `useSession`/Dashboard (task 21), `RequestDetail` (task 19), `WebhookUrlCard` (task 15), `JsonViewer` (task 18) sudah lengkap; 2 gap ditemukan
+- Modified `frontend/src/hooks/useWebSocket.ts` - Tambah reconnect toast (PLAN C: "Reconnect toast + badge offline")
+  - Impor `toast` dari sonner; tambah `wasReconnecting` useRef untuk deteksi transisi
+  - `onclose` → pertama kali reconnecting: `toast.warning("Connection lost — reconnecting…")` (hanya sekali per sesi putus, tidak spam tiap percobaan 3s)
+  - `onopen` → jika sebelumnya reconnecting: `toast.success("Reconnected")`; reset `wasReconnecting`
+  - Toast di event handler (bukan render) → aman StrictMode; guard `disposed` dipertahankan
+- Modified `frontend/src/components/log/LogList.tsx` - Tambah prop `wsStatus: WebSocketStatus` + state loading/offline
+  - `connecting`/`reconnecting` + belum ada logs → skeleton list 5 item (`SKELETON_COUNT = 5`, baris menyerupai LogItem: badge + time + webhookId + preview)
+  - `closed` + belum ada logs → `EmptyState` ikon `WifiOff`, "Disconnected", "Real-time stream unavailable"
+  - `open` + tanpa logs → `EmptyState` existing ("No requests yet")
+- Modified `frontend/src/components/layout/DashboardLayout.tsx` - Pass `wsStatus={wsStatus}` ke kedua instance `<LogList />` (aside desktop + Sheet mobile)
+- Tidak diubah (terdokumentasi): LogList "Retry button" di-skip (WS auto-reconnect 3s sudah menangani), RequestDetail skeleton panel N/A (data sinkron dari store), virtual scroll >100 item tetap deferred
+- Verified `npm run build` (tsc + vite) sukses (2014 modules; warning non-blocking chunk >500kB tetap) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
+- Updated `PLAN.md` - Task 25 ditandai ✅ Done & Fase 6 (Polish) lengkap; Fase 7 (Docs: task 26) menyusul

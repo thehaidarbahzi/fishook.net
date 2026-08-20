@@ -77,7 +77,7 @@ fishook/
 | 22 | Buat halaman `NotFound` | Page | 4 | ✅ Done — Sudah dibuat di fase Routing (task 4); tahap ini hanya verifikasi build/lint |
 | 23 | Setup `App.tsx` + routing + global error boundary | Integration | 21, 22 | ✅ Done — `ErrorBoundary` bungkus `<Routes>`, Toaster di luar; routing `/` & `*` tetap |
 | 24 | Responsive layout — sidebar collapse di mobile, Sheet utk detail | Polish | 20 | ✅ Done — hamburger `md:hidden` + `Sheet side="left"` berisi WebhookUrlCard+LogList, aside `hidden md:block` |
-| 25 | loading/empty/error state review seluruh komponen | Polish | 23 | — |
+| 25 | loading/empty/error state review seluruh komponen | Polish | 23 | ✅ Done — reconnect toast (useWebSocket), skeleton 5-item LogList (connecting/reconnecting), offline state (closed), wsStatus prop ke 2 instance |
 | 26 | Init `progress.txt` + catat semua yang sudah dikerjakan | Docs | — | — |
 
 ## C. State Handling per Komponen
@@ -101,7 +101,7 @@ Fase 2 (Core):     6 (Completed) → 7 → 8 → 9 → 10 → 11
 Fase 3 (Shared):   12 → 13 → 14
 Fase 4 (Feature):  15 ✅ → 16 ✅ → 17 ✅ → 18 ✅ → 19 ✅
 Fase 5 (Layout):   20 ✅ → 21 ✅ → 22 ✅ → 23 ✅
-Fase 6 (Polish):   24 ✅ → 25
+Fase 6 (Polish):   24 ✅ → 25 ✅
 Fase 7 (Docs):     26
 
 ```

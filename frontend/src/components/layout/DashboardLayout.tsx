@@ -57,7 +57,7 @@ function DashboardLayout({
                   onRetry={onRetryWebhook}
                 />
                 <div className="min-h-0 flex-1 overflow-hidden">
-                  <LogList />
+                  <LogList wsStatus={wsStatus} />
                 </div>
               </div>
             </SheetContent>
@@ -90,7 +90,7 @@ function DashboardLayout({
 
       <div className="flex min-h-0 flex-1">
         <aside className="hidden w-[320px] shrink-0 overflow-hidden border-r border-outline-variant bg-surface-container-low py-stack-md md:block">
-          <LogList />
+          <LogList wsStatus={wsStatus} />
         </aside>
 
         <main className="min-w-0 flex-1 overflow-y-auto bg-surface-dim p-gutter">

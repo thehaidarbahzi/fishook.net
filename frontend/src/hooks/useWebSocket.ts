@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { toast } from "sonner"
 
 import { useLogsStore } from "@/stores/logsStore"
 import { useSessionStore } from "@/stores/sessionStore"
@@ -13,6 +14,7 @@ export function useWebSocket() {
   const clearLogs = useLogsStore((s) => s.clearLogs)
 
   const [status, setStatus] = useState<WebSocketStatus>("connecting")
+  const wasReconnecting = useRef(false)
 
   useEffect(() => {
     if (!webhookId) return
@@ -27,7 +29,13 @@ export function useWebSocket() {
       ws = new WebSocket(`${WS_BASE}?webhook_id=${encodeURIComponent(webhookId)}`)
       setStatus("connecting")
 
-      ws.onopen = () => setStatus("open")
+      ws.onopen = () => {
+        setStatus("open")
+        if (wasReconnecting.current) {
+          wasReconnecting.current = false
+          toast.success("Reconnected")
+        }
+      }
       ws.onmessage = (event: MessageEvent) => {
         try {
           const log = JSON.parse(event.data as string) as WebhookLog
@@ -40,6 +48,10 @@ export function useWebSocket() {
       ws.onclose = () => {
         if (disposed) return
         setStatus("reconnecting")
+        if (!wasReconnecting.current) {
+          wasReconnecting.current = true
+          toast.warning("Connection lost — reconnecting…")
+        }
         timer = window.setTimeout(connect, RECONNECT_DELAY)
       }
     }
