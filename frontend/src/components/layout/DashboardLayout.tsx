@@ -1,9 +1,15 @@
-import { Settings } from "lucide-react";
+import { Menu, Settings } from "lucide-react";
 
 import RequestDetail from "@/components/detail/RequestDetail";
 import LogList from "@/components/log/LogList";
 import WebhookUrlCard from "@/components/webhook/WebhookUrlCard";
 import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import type { WebSocketStatus } from "@/types";
 
@@ -26,6 +32,36 @@ function DashboardLayout({
     <div className="flex h-screen flex-col overflow-hidden bg-surface text-on-surface">
       <header className="z-50 flex h-16 shrink-0 items-center justify-between border-b border-outline-variant bg-surface-container px-gutter">
         <div className="flex min-w-0 items-center gap-stack-md">
+          <Sheet>
+            <SheetTrigger
+              render={
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                  className="md:hidden"
+                  aria-label="Open request history"
+                  title="Open request history"
+                />
+              }
+            >
+              <Menu />
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[320px] p-0">
+              <SheetTitle className="sr-only">Request History</SheetTitle>
+              <div className="flex h-full min-h-0 flex-col gap-stack-md p-stack-md">
+                <WebhookUrlCard
+                  webhookUrl={webhookUrl}
+                  expiresAt={expiresAt}
+                  loading={loading}
+                  onRetry={onRetryWebhook}
+                />
+                <div className="min-h-0 flex-1 overflow-hidden">
+                  <LogList />
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
           <span className="font-display text-display font-black text-on-surface">
             Fishook
           </span>
@@ -53,7 +89,7 @@ function DashboardLayout({
       </header>
 
       <div className="flex min-h-0 flex-1">
-        <aside className="w-[320px] shrink-0 overflow-hidden border-r border-outline-variant bg-surface-container-low py-stack-md">
+        <aside className="hidden w-[320px] shrink-0 overflow-hidden border-r border-outline-variant bg-surface-container-low py-stack-md md:block">
           <LogList />
         </aside>
 

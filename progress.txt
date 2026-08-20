@@ -237,3 +237,14 @@
 - Modified `frontend/src/App.tsx` - Bungkus `<Routes>` dengan `<ErrorBoundary>` (bukan seluruh BrowserRouter) sehingga `<Toaster>` sonner tetap hidup walau sebuah page crash; routing `/` & `*` tidak berubah
 - Verified `npm run build` (tsc + vite) sukses (1935 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui) — tanpa warning baru dari ErrorBoundary
 - Updated `PLAN.md` - Task 23 ditandai ✅ Done & Fase 5 (Layout) lengkap; Fase 6 (Polish: 24 responsive, 25 state review) & Fase 7 (Docs: 26) menyusul
+
+### Responsive Layout (Task 24)
+- Modified `frontend/src/components/layout/DashboardLayout.tsx` - Sidebar collapse di mobile + Sheet drawer (DESIGN.md:128 "sidebar collapses into a sheet/drawer")
+  - Impor `Menu` (lucide) + Sheet primitives (`Sheet`, `SheetTrigger`, `SheetContent`, `SheetTitle`) dari `ui/sheet`
+  - Header: tombol hamburger `md:hidden` di grup kiri (sebelum brand Fishook) via `<SheetTrigger render={<Button variant="ghost" size="icon-sm" />}>`; ikon `Menu`, `aria-label` "Open request history"
+  - `<SheetContent side="left" className="w-[320px] p-0">` (posisi kiri selaras sidebar desktop, lebar sama 320px): `<SheetTitle className="sr-only">Request History</SheetTitle>` (a11y Base UI Dialog) + `<WebhookUrlCard>` (agar URL tetap bisa dicopy di mobile — header menyembunyikannya di bawah `md`) + `<LogList />` (wrapper `min-h-0 flex-1 overflow-hidden`)
+  - Sidebar desktop `<aside>` → `hidden ... md:block` (sembunyi < 768px, konsisten dengan `hidden md:block` WebhookUrlCard)
+  - Main panel otomatis single-column full-width di mobile (DESIGN.md:128); padding `p-gutter` dipertahankan
+  - Catatan: `LogList` dirender 2x (aside + Sheet) tapi baca store zustand sama → seleksi/logs sinkron tanpa prop-drilling
+- Verified `npm run build` (tsc + vite) sukses (2014 modules — naik karena Sheet menarik Base UI Dialog; ada warning non-blocking chunk >500kB → code-splitting bisa jadi follow-up polish) & `npm run lint` sukses (3 warning pre-existing di komponen ui)
+- Updated `PLAN.md` - Task 24 ditandai ✅ Done & Fase 6 (Polish) progres; task 25 (loading/empty/error state review) & 26 (docs) menyusul
