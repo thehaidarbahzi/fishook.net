@@ -226,6 +226,8 @@
 - Verified `npm run build` (tsc + vite) sukses (1934 modules) & `npm run lint` sukses (3 warning pre-existing di komponen ui) — tanpa regresi dari task 21
 - Updated `PLAN.md` - Task 22 ditandai ✅ Done & Fase 5 (Layout) progres; task 23 (App/routing + global error boundary) menyusul
 
+# 2026-08-20
+
 ### App + Global Error Boundary (Task 23)
 - Created `frontend/src/components/shared/ErrorBoundary.tsx` - Global error boundary (class component, wajib class di React 19)
   - Props `{ children: ReactNode }`, state `{ hasError, resetKey }`
